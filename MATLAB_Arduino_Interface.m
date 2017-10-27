@@ -2,8 +2,12 @@
 clear all;
 clc;
 clear;
+%%Initialization
+data_points = 250;
+
 %% Create serial object for Arduino
 s = serial('/dev/cu.wchusbserial1420'); % change the COM Port number as needed
+%s = serial('COM9'); % change the COM Port number as needed
 set(s, 'BaudRate', 9600);
 set(s, 'DataBits', 8);
 set(s, 'StopBits', 1);
@@ -18,30 +22,37 @@ while(true)
     end
 end
 %% Get User Input
-
-% while(get(s, 'BytesAvailable')==0)
-% end
-x = [];
-y = [];
-z = [];
-while(length(x) < 250)
-%     fprintf(s, '%i', slave);
-%     fwrite(s, 's');
-%     fprintf(s, '%i', command);
-%     fwrite(s, 's');
-      while(get(s, 'BytesAvailable')==0)
-      end
-      x_new = fscanf(s, '%d');
-      y_new = fscanf(s, '%d');
-      z_new = fscanf(s, '%d');
-      x = [x, x_new]; %how to get readings from Arduino
-      y = [y, y_new]; %how to get readings from Arduino
-      z = [z, z_new]; %how to get readings from Arduino
-
-      
-      %disp(x_new);
-      %disp(y_new);
-      %disp(z_new);
+Ax = [];
+Ay = [];
+Az = [];
+Gx = [];
+Gy = [];
+Gz = [];
+while(length(Ax) < data_points)
+    while(get(s, 'BytesAvailable')==0)
+    end
+    Ax_new = fscanf(s, '%d');
+    Ay_new = fscanf(s, '%d');
+    Az_new = fscanf(s, '%d');
+    Gx_new = fscanf(s, '%d');
+    Gy_new = fscanf(s, '%d');
+    Gz_new = fscanf(s, '%d');
+    Ax = [Ax, Ax_new]; %how to get readings from Arduino
+    Ay = [Ay, Ay_new]; %how to get readings from Arduino
+    Az = [Az, Az_new]; %how to get readings from Arduino
+    Gx = [Gx, Gx_new]; %how to get readings from Arduino
+    Gy = [Gy, Gy_new]; %how to get readings from Arduino
+    Gz = [Gz, Gz_new]; %how to get readings from Arduino
 end
-disp('Execution Ended');
+
+figure;
+subplot(3,1,1), plot(Ax);xlim([0 data_points]); xlabel('Time'); ylabel('X Acceleration Value');
+subplot(3,1,2), plot(Ay);xlim([0 data_points]); xlabel('Time'); ylabel('Y Acceleration Value');
+subplot(3,1,3), plot(Az);xlim([0 data_points]); xlabel('Time'); ylabel('Z Acceleration Value');
+
+figure;
+subplot(3,1,1), plot(Gx);xlim([0 data_points]); xlabel('Time'); ylabel('X Angular Acceleration Value');
+subplot(3,1,2), plot(Gy);xlim([0 data_points]); xlabel('Time'); ylabel('Y Angular Acceleration Value');
+subplot(3,1,3), plot(Gz);xlim([0 data_points]); xlabel('Time'); ylabel('Z Angular Acceleration Value');
+
 fclose(s);

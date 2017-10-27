@@ -2,9 +2,7 @@
 #include <math.h>
 
 const int MPU_addr=0x68;  // I2C address of the MPU-6050
-int AcX,AcY,Tmp,GyX,GyY,GyZ;
-int AcZ, hysteresis;
-boolean high;
+int AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
 void setup() {
   Serial.begin(9600);
   Wire.begin(1);
@@ -13,10 +11,6 @@ void setup() {
   Wire.write(0x6B);  // PWR_MGMT_1 register
   Wire.write(0);     // set to zero (wakes up the MPU-6050)
   Wire.endTransmission(true);
-  
-  pinMode(LED_BUILTIN, OUTPUT);
-  high = false;
-  hysteresis = 0.1;
 }
 
 void loop() {
@@ -41,6 +35,12 @@ void loop() {
   Serial.println(AcY);
   delay(10);
   Serial.println(AcZ);
+  delay(10);
+  Serial.println(GyX);
+  delay(10);
+  Serial.println(GyY);
+  delay(10);
+  Serial.println(GyZ);
   delay(10);
 //  Serial.print(" | Tmp = "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet
 //  Serial.print(" | GyX = "); Serial.print(GyX);
