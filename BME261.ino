@@ -31,15 +31,10 @@ void loop() {
 //  Serial.print(" | AcZ = "); Serial.println(AcZ);
 
   Serial.println(AcX);
-  delay(10);
   Serial.println(AcY);
-  delay(10);
   Serial.println(AcZ);
-  delay(10);
   Serial.println(GyX);
-  delay(10);
   Serial.println(GyY);
-  delay(10);
   Serial.println(GyZ);
   delay(10);
 //  Serial.print(" | Tmp = "); Serial.print(Tmp/340.00+36.53);  //equation for temperature in degrees C from datasheet

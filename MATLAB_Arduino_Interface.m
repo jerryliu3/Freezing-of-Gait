@@ -1,12 +1,10 @@
 %% Clear previous data
 clear all;
 clc;
-clear;
 %%Initialization
-data_points = 250;
-
+data_points = 500;
 %% Create serial object for Arduino
-s = serial('/dev/cu.wchusbserial1420'); % change the COM Port number as needed
+s = serial('/dev/cu.wchusbserial1410'); % change the COM Port number as needed
 %s = serial('COM9'); % change the COM Port number as needed
 set(s, 'BaudRate', 9600);
 set(s, 'DataBits', 8);
@@ -29,6 +27,7 @@ Gx = [];
 Gy = [];
 Gz = [];
 while(length(Ax) < data_points)
+    disp(length(Ax));
     while(get(s, 'BytesAvailable')==0)
     end
     Ax_new = fscanf(s, '%d');
@@ -56,3 +55,5 @@ subplot(3,1,2), plot(Gy);xlim([0 data_points]); xlabel('Time'); ylabel('Y Angula
 subplot(3,1,3), plot(Gz);xlim([0 data_points]); xlabel('Time'); ylabel('Z Angular Acceleration Value');
 
 fclose(s);
+
+save('Test.m');
