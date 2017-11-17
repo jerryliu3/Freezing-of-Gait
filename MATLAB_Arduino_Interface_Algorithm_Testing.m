@@ -65,7 +65,7 @@ while(pos_in_signal < length(Ax))
             end
             derivative = -1;
         end
-        if(num_peaks >= 6)
+        if(num_peaks >= 6 && Gz_max - Gz_min < 20000 && Gz_max - Gz_min > 10000)
             disp('Freezing');
             disp(pos_in_signal);
             counter = 0;
