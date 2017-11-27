@@ -108,6 +108,8 @@ void loop() {
         {
           Serial.println("Freezing");
           analogWrite(motorPin, 123);
+          delay(1000);
+          analogWrite(motorPin, 0);          
           numPeaks = 0;
         }
       }
@@ -130,6 +132,8 @@ void loop() {
       {
         Serial.println("Freezing");
         analogWrite(motorPin, 123);
+        delay(1000);
+        analogWrite(motorPin, 0);
         counter = 0;
       }
     }
@@ -159,6 +163,8 @@ void loop() {
       {
         Serial.println("Freezing");
         analogWrite(motorPin, 123);
+        delay(1000);
+        analogWrite(motorPin, 0);
         counter = 0;
       }
     }    
