@@ -13,9 +13,9 @@ long GyY [3];
 long GyZ [3];
 long GyYZ [3];
 //square and peaks
-boolean useAlgorithm1 = true;
+boolean useAlgorithm1 = false;
 //zero and peaks
-boolean useAlgorithm2 = false;
+boolean useAlgorithm2 = true;
 //zero and combine
 boolean useAlgorithm3 = false;
 //multiply and inverse
@@ -23,6 +23,7 @@ boolean useAlgorithm4 = false;
 
 boolean normalStep = false;
 int counter = 0;
+int FoGCounter = 0;
 int numPeaks = 0;
 
 void setup() {
@@ -71,7 +72,10 @@ void setup() {
 }
 
 void loop() {
-
+  if(FoGCounter != 0)
+  {
+    FoGCounter ++;
+  }
   GyX[0] = GyX[1];
   GyY[0] = GyY[1];
   GyZ[0] = GyZ[1];
@@ -125,11 +129,21 @@ void loop() {
     if(isMaxZ(GyZ) && GyZ[1] > 20000)
     {
       counter = 0;
+      FoGCounter = 0;
     }
     else if(isMaxZ(GyZ) && isFoGZZero(GyZ[1]))
     {
       counter++;
-      if(counter > 1)
+      if(FoGCounter == 0)
+      {
+        FoGCounter++;
+      }
+      else if(FoGCounter == 100)
+      {
+        counter = 0;
+        FoGCounter = 0;
+      }
+      if(counter > 2)
       {
         Serial.println("Freezing");
         analogWrite(motorPin, 123);
@@ -191,7 +205,7 @@ void updateGy(int pos)
   tempGyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
   tempGyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
   GyX[pos] = tempGyX;
-  GyY[pos] = tempGyY;
+  GyY[pos] = -tempGyY;
   GyZ[pos] = tempGyZ;
 }
 //CONSIDER CHANGING TO OR
@@ -207,7 +221,7 @@ boolean isMaxZ(long values[])
 
 boolean isMaxYZ(long values[])
 {
-  return (values[1] - values[0] > 500000 && values[1] - values[2] > 500000);
+  return (values[1] - values[0] > 500 && values[1] - values[2] > 500);
 }
 
 boolean isFogSq(long square)
