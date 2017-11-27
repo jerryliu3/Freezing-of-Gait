@@ -28,6 +28,7 @@ int numPeaks = 0;
 void setup() {
   Serial.begin(9600);
   pinMode(motorPin, OUTPUT);
+  analogWrite(motorPin, 0);
   Wire.begin(1);
 
   Wire.beginTransmission(MPU_addr);
