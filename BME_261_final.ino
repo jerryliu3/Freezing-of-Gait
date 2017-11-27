@@ -2,6 +2,8 @@
 #include <math.h>
 
 const int MPU_addr=0x68;  // I2C address of the MPU-6050
+int motorPin = 11;
+
 long tempAcX,tempAcY,tempAcZ,Tmp,tempGyX,tempGyY,tempGyZ;
 //int AcX [1000];
 //int AcY [1000];
@@ -25,6 +27,7 @@ int numPeaks = 0;
 
 void setup() {
   Serial.begin(9600);
+  pinMode(motorPin, OUTPUT);
   Wire.begin(1);
 
   Wire.beginTransmission(MPU_addr);
@@ -104,6 +107,7 @@ void loop() {
         if(numPeaks > 5)
         {
           Serial.println("Freezing");
+          analogWrite(motorPin, 123);
           numPeaks = 0;
         }
       }
@@ -125,6 +129,7 @@ void loop() {
       if(counter > 1)
       {
         Serial.println("Freezing");
+        analogWrite(motorPin, 123);
         counter = 0;
       }
     }
@@ -153,6 +158,7 @@ void loop() {
       if(counter > 1)
       {
         Serial.println("Freezing");
+        analogWrite(motorPin, 123);
         counter = 0;
       }
     }    
@@ -211,4 +217,3 @@ boolean isFoGYZZero(long yz)
 {
   return (yz > 5000000 && yz < 100000000);
 }
-
