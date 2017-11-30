@@ -48,7 +48,7 @@ void loop() {
     {
       FoGCounter++;
     }
-    else if(FoGCounter >= 101)
+    else if(FoGCounter >= 151)
     {
       numPeaks = 0;
       FoGCounter = 0;
