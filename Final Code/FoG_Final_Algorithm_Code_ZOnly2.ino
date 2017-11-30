@@ -62,7 +62,6 @@ void loop() {
       }
       analogWrite(motorPin, 0);
       numPeaks = 0;
-      counter = 0;
       FoGCounter = 0;
     }
   }
