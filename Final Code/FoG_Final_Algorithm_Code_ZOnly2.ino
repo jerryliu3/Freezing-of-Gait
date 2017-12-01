@@ -58,6 +58,8 @@ void loop() {
       analogWrite(motorPin, 123);
       while(GyZ[1] < 20000)
       {
+        GyZ[0] = GyZ[1];
+        GyZ[1] = GyZ[2];
         updateGy(2);
       }
       analogWrite(motorPin, 0);
